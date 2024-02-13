@@ -1,4 +1,5 @@
 use std::io::Read;
+use std::mem::swap;
 
 #[derive(Debug)]
 pub(crate) struct Elves {
@@ -43,25 +44,44 @@ impl Elves {
 
         return self.max_calories;
     }
+
+
+    pub fn update_max_calories_array(vec: &mut Vec<Elves>){
+        for i in 0..vec.len() {
+            vec[i].update_max_calories();
+        }
+    }
+
+}
+
+
+fn sort_vec(vec: &mut Vec<Elves>){
+    for i in 0..vec.len() {
+        // println!("Index: {i}");
+        //  println!("Vector Value: {}", vec.get(i).unwrap().max_calories);
+        for j in 0..vec.len() - 1 {
+            if vec[j].max_calories  > vec[j+1].max_calories {
+                vec.swap(j, j+1);
+            }
+        }
+    }
 }
 
 
 pub fn run() {
     println!("Welcome to Day 01 of Rust Advent of Code!");
-    let mut elv01 = Elves::new(String::from("Elf01"), vec![1000,2000,3000]);
-    let mut elv02 = Elves::new(String::from("Elf02"), Vec::new());
-    println!("{:?}", elv01.calories.iter_mut().collect::<Vec<_>>());
-    elv01.calories.push(2000);
-    elv01.calories.push(3000);
-    elv01.calories.push(4000);
+   let elf01 = Elves::new("Elf01".to_string(), vec![1000,2000,3000]);
+   let elf02 = Elves::new("Elf02".to_string(), vec![1000]);
+   let elf03 = Elves::new("Elf03".to_string(), vec![1000,1000,5000]);
+   let elf04 = Elves::new("Elf04".to_string(), vec![2000,3000]);
 
-    println!("should be empty {:?}", elv02.calories.iter_mut().collect::<Vec<_>>());
-    println!("{}", elv01.update_max_calories());
+    let mut elves: Vec<Elves> = vec![ elf01, elf02, elf03, elf04];
+    Elves::update_max_calories_array(&mut elves);
 
-    println!("{:?}", elv01.max_calories);
-    elv01.max_calories = 2;
-    println!("{:?}", elv01.max_calories);
+    sort_vec(&mut elves);
 
-
+    for i in 0..elves.len() {
+        println!("{}", elves[i].max_calories)
+    }
 
 }
