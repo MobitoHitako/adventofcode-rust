@@ -99,6 +99,15 @@ fn sort_vec(vec: &mut Vec<Elves>){
     }
 }
 
+fn find_last_three_max_calories(elves: &Vec<Elves>)-> u32{
+    let mut sum: u32 = 0;
+    for i in (elves.len() - 3..elves.len()).rev() {
+        println!("{:?}", &elves[i]);
+        sum += &elves[i].max_calories;
+    }
+    sum
+}
+
 
 pub fn run() {
     println!("Welcome to Day 01 of Rust Advent of Code!");
@@ -113,6 +122,7 @@ pub fn run() {
     println!("The elf carrying the most is {} with the value of: {:?}", elf_most.name, elf_most.max_calories);
 
     //Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+    println!("Answer is: {}", find_last_three_max_calories(&elf_array));
 
 
 
