@@ -1,5 +1,6 @@
-use std::io::Read;
-use std::mem::swap;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::ops::Add;
 
 #[derive(Debug)]
 pub(crate) struct Elves {
@@ -17,10 +18,41 @@ impl Elves {
         }
     }
 
-    pub fn new_by_file(file_path: String) -> Vec<Elves>{
-        let file = std::fs::File::open(file_path);
 
-        Vec::new()
+    pub fn new_by_file(file_path: String) -> Vec<Elves>{
+        let mut elves:Vec<Elves> = Vec::new();
+
+        let file = File::open(file_path).expect("Cant open File!");
+        let reader = BufReader::new(file);
+
+        let mut calories:Vec<u32> = Vec::new();
+        let mut count_elves = 1;
+        //line by line
+        for line in reader.lines(){
+            let line = line.expect("Line could not be read");
+            let parsed_line: u32;
+
+           // PARSE STRING TO INTEGER, BUT ONLY IF IT CAN PARSE (im stupid)
+           if line.parse::<u32>().ok().is_some() {
+                parsed_line = line.parse().unwrap();
+                calories.push(parsed_line);
+            }
+
+            // if line is empty that means we need to return the current Vector
+            if line.is_empty()  {
+                elves.push(Elves::new(String::from("Elf").add(&*count_elves.to_string()), calories.to_vec()));
+
+                // After Push, we clear calories vector to make room for next Elf
+                calories.clear();
+                count_elves += 1;
+            }
+
+        }
+
+        println!("Max Calories is being updated for you for using new_by_file()");
+        Elves::update_max_calories_array(&mut elves);
+
+        elves
     }
 
     pub fn get_max_calories(&self) -> u32 {
@@ -56,7 +88,7 @@ impl Elves {
 
 
 fn sort_vec(vec: &mut Vec<Elves>){
-    for i in 0..vec.len() {
+    for _i in 0..vec.len() {
         // println!("Index: {i}");
         //  println!("Vector Value: {}", vec.get(i).unwrap().max_calories);
         for j in 0..vec.len() - 1 {
@@ -70,18 +102,18 @@ fn sort_vec(vec: &mut Vec<Elves>){
 
 pub fn run() {
     println!("Welcome to Day 01 of Rust Advent of Code!");
-   let elf01 = Elves::new("Elf01".to_string(), vec![1000,2000,3000]);
-   let elf02 = Elves::new("Elf02".to_string(), vec![1000]);
-   let elf03 = Elves::new("Elf03".to_string(), vec![1000,1000,5000]);
-   let elf04 = Elves::new("Elf04".to_string(), vec![2000,3000]);
+     let file_path: String = String::from("src/input/Day01/advent01.txt");
+    let mut elf_array = Elves::new_by_file(file_path);
 
-    let mut elves: Vec<Elves> = vec![ elf01, elf02, elf03, elf04];
-    Elves::update_max_calories_array(&mut elves);
+    //Sort Vec
+    sort_vec(&mut elf_array);
 
-    sort_vec(&mut elves);
+    // Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
+    let elf_most = &elf_array[elf_array.len() - 1];
+    println!("The elf carrying the most is {} with the value of: {:?}", elf_most.name, elf_most.max_calories);
 
-    for i in 0..elves.len() {
-        println!("{}", elves[i].max_calories)
-    }
+    //Find the top three Elves carrying the most Calories. How many Calories are those Elves carrying in total?
+
+
 
 }
