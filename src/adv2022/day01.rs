@@ -111,7 +111,7 @@ fn find_last_three_max_calories(elves: &Vec<Elves>)-> u32{
 
 pub fn run() {
     println!("Welcome to Day 01 of Rust Advent of Code!");
-     let file_path: String = String::from("src/input/Day01/advent01.txt");
+     let file_path: String = String::from("src/adv2022/input/Day01/advent01.txt");
     let mut elf_array = Elves::new_by_file(file_path);
 
     //Sort Vec

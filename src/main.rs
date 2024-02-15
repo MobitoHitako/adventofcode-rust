@@ -1,9 +1,10 @@
-mod day01;
-mod testing;
+mod adv2022;
+
+
 
 fn main() {
-    day01::run();
-
+    adv2022::day01::run();
+    adv2022::day02::run();
 }
 
 
