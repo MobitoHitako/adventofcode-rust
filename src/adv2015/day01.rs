@@ -24,12 +24,11 @@ fn handle_floor_instructions(content: &String, first_basement_check: bool) -> i6
 
 pub fn run(first_basement_check: bool) {
     println!("Welcome to Day01");
-    let mut result = 0;
     const FILE_PATH: &str = "src/adv2015/input/Day01/day01.txt";
-    // Open the file in read-only mode
-    let contents = fs::read_to_string(FILE_PATH).expect("Cannot read File");
 
-    result = handle_floor_instructions(&contents, first_basement_check);
+    // Read Contents from File
+    let contents = fs::read_to_string(FILE_PATH).expect("Cannot read File");
+    let result = handle_floor_instructions(&contents, first_basement_check);
 
 
     println!("Santa ended up in Floor: {}", result)
