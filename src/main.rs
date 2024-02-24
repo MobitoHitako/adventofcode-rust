@@ -5,7 +5,7 @@ mod adv2015;
 
 fn adv2015(){
     // adv2015::day01::run(false);
-    adv2015::day02::run();
+    adv2015::day02::run(true);
 }
 
 fn adv2022(){
