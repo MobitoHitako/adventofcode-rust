@@ -6,5 +6,5 @@ Day01 Completed
 Day02 Completed
 
 ## 2022
-Day01 Completed\
+Day01 Completed
 
